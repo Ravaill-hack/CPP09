@@ -6,13 +6,13 @@
 /*   By: lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:53:42 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/05/28 13:54:02 by lmatkows         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:56:40 by lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	
 }
