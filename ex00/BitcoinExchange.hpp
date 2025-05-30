@@ -19,9 +19,10 @@ class BitcoinExchange
 		void		finalPrint(const std::string &input) const;
 
 	private:
-		std::map<std::string, float>	_data;
-		void		storeData(const std::string & data);
-		float		findValueInMap(const std::string & date) const;
+		std::map<std::string, float>					_data;
+		void											storeData(const std::string & data);
+		float											findValueInMap(const std::string & date) const;
+		std::map<std::string, float>::const_iterator	findFirstPreviousDate(const std::string & date) const;
 };
 
 static	std::string	findDate(std::string line);

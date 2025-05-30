@@ -6,7 +6,7 @@
 /*   By: lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:52:19 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/05/30 13:44:57 by lmatkows         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:11:51 by lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	BitcoinExchange::storeData(const std::string &data)
 		std::cerr << "Error: cannot open " << data << std::endl;
 	else
 	{
+		std::getline(datastream, tmpline);
 		while (std::getline(datastream, tmpline))
 		{
 			if (!tmpline.empty())
@@ -70,9 +71,14 @@ void	BitcoinExchange::storeData(const std::string &data)
 	}
 }
 
-std::map<std::string, float>::iterator	findFirstPreviousDate(const std::string & date)
+std::map<std::string, float>::const_iterator	BitcoinExchange::findFirstPreviousDate(const std::string & date) const
 {
-	
+	auto	it = _data.lower_bound(date);
+
+	if (it == _data.begin())
+		return (_data.end());
+	it--;
+	return (it);
 }
 
 float	BitcoinExchange::findValueInMap(const std::string & date) const
@@ -100,12 +106,15 @@ void	BitcoinExchange::finalPrint(const std::string &input) const
 		std::cerr << "Error: cannot open " << input << std::endl;
 	else
 	{
+		std::getline(inputstream, tmpline);
 		while (std::getline(inputstream, tmpline))
 		{
 			if (!tmpline.empty())
 			{
 				tmpdate = findDate(tmpline);
 				tmpvalue = findValueInMap(tmpdate);
+				tmpnb = findNb(tmpline);
+				std::cout << tmpdate << " => " << tmpnb << " = " << static_cast<float>(tmpnb) * tmpvalue << std::endl;
 			}
 		}
 		inputstream.clear();
@@ -143,4 +152,11 @@ static	float	findValueInData(std::string line)
 	return (nb);
 }
 
+static	int	findNb(const std::string line)
+{
+	int					nb = 0;
+	std::stringstream	streamnb(line.substr(12));
+	streamnb >> nb;
+	return (nb);
+}
 
