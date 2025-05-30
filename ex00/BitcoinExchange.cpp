@@ -6,7 +6,7 @@
 /*   By: lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:52:19 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/05/30 14:23:20 by lmatkows         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:45:19 by lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	BitcoinExchange::finalPrint(const std::string &input) const
 {
 	std::ifstream	inputstream;
 	std::string		tmpline;
-	int				tmpnb = 1;
+	float			tmpnb = 1.0f;
 	std::string		tmpdate;
 	float			tmpvalue = 0.0f;
 
@@ -112,12 +112,32 @@ void	BitcoinExchange::finalPrint(const std::string &input) const
 		std::getline(inputstream, tmpline);
 		while (std::getline(inputstream, tmpline))
 		{
-			if (!tmpline.empty())
+			try
 			{
-				tmpdate = findDate(tmpline);
-				tmpvalue = findValueInMap(tmpdate);
-				tmpnb = findNb(tmpline);
-				std::cout << tmpdate << " => " << tmpnb << " = " << static_cast<float>(tmpnb) * tmpvalue << std::endl;
+				if (!tmpline.empty())
+				{
+					tmpdate = findDate(tmpline);
+					tmpvalue = findValueInMap(tmpdate);
+					tmpnb = findNb(tmpline);
+					if (tmpnb < 0)
+						throw BitcoinExchange::NegativeNumberException();
+					else if (tmpnb > 1000.0f)
+						throw BitcoinExchange::TooLargeNumberException();
+					else
+						std::cout << tmpdate << " => " << tmpnb << " = " << tmpnb * tmpvalue << std::endl;
+				}
+			}
+			catch(const std::out_of_range& e)
+			{
+				std::cerr << "Error: bad input => " << tmpdate << std::endl;
+			}
+			catch(const BitcoinExchange::TooLargeNumberException& e)
+			{
+				std::cerr << e.what() << std::endl;
+			}
+			catch(const BitcoinExchange::NegativeNumberException& e)
+			{
+				std::cerr << e.what() << std::endl;
 			}
 		}
 		inputstream.clear();
@@ -155,9 +175,9 @@ float	findValueInData(std::string line)
 	return (nb);
 }
 
-int	findNb(const std::string line)
+float	findNb(const std::string line)
 {
-	int					nb = 0;
+	float				nb = 0.0f;
 	std::stringstream	streamnb(line.substr(12));
 	streamnb >> nb;
 	return (nb);

@@ -7,6 +7,7 @@
 # include <sstream>
 # include <iomanip>
 # include <string>
+# include <limits>
 # include <map>
 
 class BitcoinExchange
@@ -21,6 +22,23 @@ class BitcoinExchange
 
 		void		finalPrint(const std::string &input) const;
 
+		class TooLargeNumberException : public std::exception
+		{
+			public:
+				const char * what() const throw()
+				{
+					return ("Error: too large a number.");
+				}
+		};
+		class NegativeNumberException : public std::exception
+		{
+			public:
+				const char * what() const throw()
+				{
+					return ("Error: not a positive number.");
+				}
+		};
+
 	private:
 		std::map<std::string, float>					_data;
 		void											storeData(const std::string & data);
@@ -30,6 +48,6 @@ class BitcoinExchange
 
 std::string	findDate(std::string line);
 float		findValueInData(std::string line);
-int			findNb(const std::string line);
+float		findNb(const std::string line);
 
 #endif
