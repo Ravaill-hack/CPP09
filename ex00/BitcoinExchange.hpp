@@ -4,6 +4,7 @@
 
 # include <iostream>
 # include <fstream>
+# include <sstream>
 # include <iomanip>
 # include <string>
 # include <map>
@@ -16,6 +17,8 @@ class BitcoinExchange
 		BitcoinExchange(const BitcoinExchange & toCopy);
 		BitcoinExchange & operator=(const BitcoinExchange & other);
 
+		BitcoinExchange(const std::string & input);
+
 		void		finalPrint(const std::string &input) const;
 
 	private:
@@ -25,7 +28,8 @@ class BitcoinExchange
 		std::map<std::string, float>::const_iterator	findFirstPreviousDate(const std::string & date) const;
 };
 
-static	std::string	findDate(std::string line);
-static	float		findValueInData(std::string line);
+std::string	findDate(std::string line);
+float		findValueInData(std::string line);
+int			findNb(const std::string line);
 
 #endif

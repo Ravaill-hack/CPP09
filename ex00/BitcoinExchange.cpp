@@ -6,7 +6,7 @@
 /*   By: lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:52:19 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/05/30 14:11:51 by lmatkows         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:23:20 by lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ BitcoinExchange & BitcoinExchange::operator=(const BitcoinExchange & other)
 ///                                                                          ///
 ////////////////////////////////////////////////////////////////////////////////
 
-
+BitcoinExchange::BitcoinExchange(const std::string & input)
+{
+	storeData(input);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 ///                                                                          ///
@@ -53,7 +56,7 @@ void	BitcoinExchange::storeData(const std::string &data)
 	std::ifstream		datastream;
 	std::string			tmpline;
 
-	datastream.open(data);
+	datastream.open(data.c_str());
 	if (!datastream)
 		std::cerr << "Error: cannot open " << data << std::endl;
 	else
@@ -73,7 +76,7 @@ void	BitcoinExchange::storeData(const std::string &data)
 
 std::map<std::string, float>::const_iterator	BitcoinExchange::findFirstPreviousDate(const std::string & date) const
 {
-	auto	it = _data.lower_bound(date);
+	std::map<std::string, float>::const_iterator	it = _data.lower_bound(date);
 
 	if (it == _data.begin())
 		return (_data.end());
@@ -83,12 +86,12 @@ std::map<std::string, float>::const_iterator	BitcoinExchange::findFirstPreviousD
 
 float	BitcoinExchange::findValueInMap(const std::string & date) const
 {
-	auto it = _data.find(date);
+	std::map<std::string, float>::const_iterator it = _data.find(date);
 	if (it != _data.end())
 		return (it->second);
 	else
 	{
-		auto it = findFirstPreviousDate(date);
+		std::map<std::string, float>::const_iterator it = findFirstPreviousDate(date);
 		return (it->second);
 	}
 }
@@ -101,7 +104,7 @@ void	BitcoinExchange::finalPrint(const std::string &input) const
 	std::string		tmpdate;
 	float			tmpvalue = 0.0f;
 
-	inputstream.open(input);
+	inputstream.open(input.c_str());
 	if (!inputstream)
 		std::cerr << "Error: cannot open " << input << std::endl;
 	else
@@ -138,12 +141,12 @@ void	BitcoinExchange::finalPrint(const std::string &input) const
 ///                                                                          ///
 ////////////////////////////////////////////////////////////////////////////////
 
-static	std::string	findDate(std::string line)
+std::string	findDate(std::string line)
 {
 	return (line.substr(0, 10));
 }
 
-static	float	findValueInData(std::string line)
+float	findValueInData(std::string line)
 {
 	float	nb = 0.0f;
 
@@ -152,7 +155,7 @@ static	float	findValueInData(std::string line)
 	return (nb);
 }
 
-static	int	findNb(const std::string line)
+int	findNb(const std::string line)
 {
 	int					nb = 0;
 	std::stringstream	streamnb(line.substr(12));
