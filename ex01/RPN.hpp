@@ -8,6 +8,7 @@
 # include <string>
 # include <iomanip>
 # include <vector>
+# include <stack>
 # include <exception>
 
 class RPN
@@ -19,34 +20,13 @@ class RPN
 		RPN(const RPN & toCopy);
 		RPN & operator=(const RPN & other);
 
-		void		process();
-
-		class InvalidNbArgsException : public std::exception
-		{
-			public:
-				const char * what() const throw()
-				{
-					return ("Error: there must be one and only one input");
-				}
-		};
-
-		class InvalidSyntaxException : public std::exception
-		{
-			public:
-				const char * what() const throw()
-				{
-					return ("Error: Invalid Syntax");
-				}
-		};
+		void					process();
 
 	private:
 		std::string				_expr;
-		std::vector<char>		_operands;
-		std::vector<int>		_nbs;
-		int						_res;
+		std::stack<int>			_nbs;
 
-		int						chooseOperand(size_t i);
-		void					fill();
+		int						chooseOperand(char op, int nb1, int nb2);
 		bool					isValidNb(size_t i) const;
 		bool					isValidOperand(size_t i) const;
 

@@ -6,7 +6,7 @@
 /*   By: lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 14:58:21 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/06/04 11:59:21 by lmatkows         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:51:15 by lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,16 @@
 ///                                                                          ///
 ////////////////////////////////////////////////////////////////////////////////
 
-RPN::RPN() : _expr("empty"), _res(0){}
+RPN::RPN() : _expr("empty"){}
 
 RPN::RPN(const std::string & expr)
 {
 	if (expr.empty())
-		throw InvalidSyntaxException();
+		throw std::runtime_error("Empty arg");
 	else
 		_expr = expr;
 	if (isValidNb(0) == false)
-		throw InvalidSyntaxException();
-	else
-		_res = toInt(_expr[0]);
-	this->fill();
+		throw std::runtime_error("First element must be an int");
 }
 	
 RPN::~RPN(){}
@@ -45,8 +42,6 @@ RPN & RPN::operator=(const RPN & other)
 	if (this != &other)
 	{
 		this->_expr = other._expr;
-		this->_res = other._res;
-		this->_operands = other._operands;
 		this->_nbs = other._nbs;
 	}
 	return (*this);
@@ -60,38 +55,32 @@ RPN & RPN::operator=(const RPN & other)
 
 void	RPN::process()
 {
-	size_t	i = 0;
-	while (i < this->_nbs.size())
+	std::istringstream	iss(_expr);
+	std::string			oneChar;
+	std::string			operands = "+-*/";
+	int					n1 = 0;
+	int					n2 = 0;
+	size_t				i = 0;
+	int					res = 0;
+	
+	while (iss >> oneChar)
 	{
-		_res = chooseOperand(i);
+		if (oneChar.size() == 1 && operands.find(oneChar) != operands.npos) // si on est sur un char Operator
+		{
+			if (this->_nbs.size() < 2)
+				throw std::runtime_error("Incorrect number of operands");
+			n1 = this->_nbs.top();
+			this->_nbs.pop();
+			n2 = this->_nbs.top();
+			this->_nbs.pop();			
+			res = chooseOperand(oneChar[0], n1, n2);
+			this->_nbs.push(res);
+		}
+		else
+			this->_nbs.push(toInt(oneChar[0]));
 		i++;
 	}
-	std::cout << _res << std::endl;
-}
-
-void	RPN::fill()
-{
-	size_t	i = 2;
-
-	if (isValidNb(0) == false)
-		throw InvalidSyntaxException();
-	while (this->_expr.c_str()[i])
-	{
-		if (isValidNb(i))
-			_nbs.push_back(toInt(this->_expr.c_str()[i]));
-		else
-			throw InvalidSyntaxException();
-		i++;
-		if (this->_expr.c_str()[i] && this->_expr.c_str()[i] == ' ')
-			i++;
-		if (isValidOperand(i))
-			_operands.push_back(this->_expr.c_str()[i]);
-		else
-			throw InvalidSyntaxException();
-		i++;
-		if (this->_expr.c_str()[i] && this->_expr.c_str()[i] == ' ')
-			i++;
-	}
+	std::cout << this->_nbs.top() << std::endl;
 }
 
 bool	RPN::isValidNb(size_t i) const
@@ -108,18 +97,18 @@ bool	RPN::isValidOperand(size_t i) const
 	return (false);
 }
 
-int	RPN::chooseOperand(size_t i)
+int	RPN::chooseOperand(char op, int nb1, int nb2)
 {
-	int		res;
 	char 	tabOperands[4] = {'+', '-', '*', '/'};
 	int		(*functionsTab[4])(int nb1, int nb2) = {plus, minu, fact, divi};
 
 	for (size_t i1 = 0; i1 < 4; i1++)
 	{
-		if (_operands[i] == tabOperands[i1])
-			res = (functionsTab[i1](_res, _nbs[i]));
+		if (op == tabOperands[i1])
+			return (functionsTab[i1](nb1, nb2));
 	}
-	return (res);
+	throw std::runtime_error("Invalid operand");
+	return (-1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +139,9 @@ int	fact(int nb1, int nb2)
 
 int	divi(int nb1, int nb2)
 {
-	return (nb1 / nb2);
+	if (nb2 != 0)
+		return (nb1 / nb2);
+	else
+		throw std::runtime_error("Division by Zero");
 }
 
