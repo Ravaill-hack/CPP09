@@ -6,7 +6,7 @@
 /*   By: lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 12:17:55 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/06/07 12:33:37 by lmatkows         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:56:15 by lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@
 ///                                                                          ///
 ////////////////////////////////////////////////////////////////////////////////
 
-PmergeMe::PmergeMe(){}
+PmergeMe::PmergeMe()
+{
+	this->_startTime = std::time(NULL);
+}
 
 PmergeMe::~PmergeMe(){}
 
@@ -31,7 +34,7 @@ PmergeMe & PmergeMe::operator=(const PmergeMe & other)
 {
 	if (this != &other)
 	{
-		
+		this->_startTime = other._startTime;
 	}
 	return (*this);
 }

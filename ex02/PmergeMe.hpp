@@ -2,6 +2,8 @@
 #ifndef PMERGEME_HPP
 # define PMERGEME_HPP
 
+# include <ctime>
+
 class PmergeMe
 {
 	public:
@@ -11,6 +13,7 @@ class PmergeMe
 		PmergeMe & operator=(const PmergeMe & other);
 
 	private:
+		time_t		_startTime;
 
 };
 
