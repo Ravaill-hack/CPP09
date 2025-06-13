@@ -6,7 +6,7 @@
 /*   By: lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 12:17:55 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/06/10 13:56:15 by lmatkows         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:12:26 by lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,3 +53,8 @@ PmergeMe & PmergeMe::operator=(const PmergeMe & other)
 ///                                                                          ///
 ////////////////////////////////////////////////////////////////////////////////
 
+void	PmergeMe::getChrono() const
+{
+	time_t	now = std::time(NULL);
+	std::cout << now - _startTime;
+}
