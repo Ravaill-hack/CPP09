@@ -21,7 +21,7 @@ class PmergeMe
 
 		void				process();
 
-		class SynaxException : public std::exception
+		class SyntaxException : public std::exception
 		{
 			public:
 				const char* what() const throw()

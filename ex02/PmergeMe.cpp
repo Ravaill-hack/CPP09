@@ -6,7 +6,7 @@
 /*   By: Lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 12:17:55 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/06/16 16:35:36 by Lmatkows         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:54:07 by Lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ PmergeMe::PmergeMe(int argc, char **argv)
 	{
 		std::string nb(argv[i]);
 		if (!isValidArg(nb))
-			throw SynaxException();
+			throw SyntaxException();
 		if (!isPositive(nb))
 			throw NotPositiveException();
 		if (!isInt(nb))
@@ -140,6 +140,7 @@ void	PmergeMe::sortVector()
 		sortedVect.push_back(_vectInt[i]);
 	if (len % 2 != 0)
 		sortedVect.push_back(_vectInt[len - 1]);
+	insertInVect(sortedVect, 0, sortedVect.size());
 	insertPairsSecondMembersVect(len, sortedVect);
 	_endTimeVect = std::clock();
 	_vectInt = sortedVect;
@@ -191,6 +192,7 @@ void	PmergeMe::sortDeque()
 		sortedDeque.push_back(_dequeInt[i]);
 	if (len % 2 != 0)
 		sortedDeque.push_back(_dequeInt[len - 1]);
+	insertInDeque(sortedDeque, 0, sortedDeque.size());
 	insertPairsSecondMembersDeque(len, sortedDeque);
 	_endTimeDeque = std::clock();
 	_dequeInt = sortedDeque;
@@ -237,6 +239,8 @@ bool	isPositive(std::string nbStr)
 
 bool	isInt(std::string nbStr)
 {
+	if (nbStr.size() >= 11)
+		return (false);
 	long nb = std::atol(nbStr.c_str());
 	return (nb <= INT_MAX);
 }
