@@ -6,7 +6,7 @@
 /*   By: Lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 12:17:55 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/06/16 16:25:58 by Lmatkows         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:35:36 by Lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@ static bool			isPositive(std::string nbStr);
 
 PmergeMe::PmergeMe()
 {
-	this->_startTimeVect = std::time(NULL);
-	this->_endTimeVect = std::time(NULL);
-	this->_startTimeDeque = std::time(NULL);
-	this->_endTimeDeque = std::time(NULL); 
+	this->_startTimeVect = std::clock();
+	this->_endTimeVect = std::clock();
+	this->_startTimeDeque = std::clock();
+	this->_endTimeDeque = std::clock();
 }
 
 PmergeMe::PmergeMe(int argc, char **argv)
 {
-	this->_startTimeVect = std::time(NULL);
-	this->_endTimeVect = std::time(NULL);
-	this->_startTimeDeque = std::time(NULL);
-	this->_endTimeDeque = std::time(NULL); 
+	this->_startTimeVect = std::clock();
+	this->_endTimeVect = std::clock();
+	this->_startTimeDeque = std::clock();
+	this->_endTimeDeque = std::clock();
 	for (int i = 1; i < argc; i++)
 	{
 		std::string nb(argv[i]);
@@ -132,7 +132,7 @@ void	PmergeMe::sortVector()
 {
 	std::vector<int> sortedVect;
 	size_t	len = _vectInt.size();
-	_startTimeVect = std::time(NULL);
+	_startTimeVect = std::clock();
 	if (len <= 1)
 		return;
 	sortPairsVect(len);
@@ -141,7 +141,7 @@ void	PmergeMe::sortVector()
 	if (len % 2 != 0)
 		sortedVect.push_back(_vectInt[len - 1]);
 	insertPairsSecondMembersVect(len, sortedVect);
-	_endTimeVect = std::time(NULL);
+	_endTimeVect = std::clock();
 	_vectInt = sortedVect;
 }
 
@@ -183,7 +183,7 @@ void	PmergeMe::sortDeque()
 {
 	std::deque<int> sortedDeque;
 	size_t	len = _dequeInt.size();
-	_startTimeDeque = std::time(NULL);
+	_startTimeDeque = std::clock();
 	if (len <= 1)
 		return;
 	sortPairsDeque(len);
@@ -192,7 +192,7 @@ void	PmergeMe::sortDeque()
 	if (len % 2 != 0)
 		sortedDeque.push_back(_dequeInt[len - 1]);
 	insertPairsSecondMembersDeque(len, sortedDeque);
-	_endTimeDeque = std::time(NULL);
+	_endTimeDeque = std::clock();
 	_dequeInt = sortedDeque;
 }
 

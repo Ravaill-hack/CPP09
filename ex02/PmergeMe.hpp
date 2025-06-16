@@ -47,10 +47,10 @@ class PmergeMe
 		};
 
 	private:
-		time_t				_startTimeVect;
-		time_t				_endTimeVect;
-		time_t				_startTimeDeque;
-		time_t				_endTimeDeque;
+		clock_t				_startTimeVect;
+		clock_t				_endTimeVect;
+		clock_t				_startTimeDeque;
+		clock_t				_endTimeDeque;
 		std::vector<int>	_vectInt;
 		std::deque<int>		_dequeInt;
 
