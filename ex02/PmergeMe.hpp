@@ -18,7 +18,7 @@ class PmergeMe
 		PmergeMe(const PmergeMe & toCopy);
 		PmergeMe & operator=(const PmergeMe & other);
 
-		void		process();
+		void				process();
 
 		Class SynaxException : public std::exception
 		{
@@ -46,10 +46,13 @@ class PmergeMe
 		std::deque<int>		_dequeInt;
 
 		void				sortVector();
-		void				makePairsVect();
+		void				sortDeque();
+
+		void				sortPairsVect(size_t n);
+		void				insertPairsSecondMembersVect(size_t n, std::vector<int>& vect);
 		void				insertInVect();
-        void				sortDeque();
-		void				makePairsDeque();
+		void				sortPairsDeque(size_t n);
+		void				insertPairsSecondMembersDeque(size_t n, std::deque<int>& deque);
 		void				insertInDeque();
 		void				announce(std::string message);
 

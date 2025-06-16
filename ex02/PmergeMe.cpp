@@ -6,7 +6,7 @@
 /*   By: Lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 12:17:55 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/06/16 15:32:02 by Lmatkows         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:56:55 by Lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,36 @@ void	PmergeMe::Process()
 
 void	PmergeMe::insertInVect(std::vector<int>& vect, size_t start, size_t end)
 {
-	
+	for (size_t i = start + 1; i < end; i++)
+	{
+		int nb = vec[i];
+		size_t j = i;
+		while (j > start && vect[j - 1] > nb)
+		{
+			vect[j] = vect[j - 1];
+			j--;
+		}
+		vect[j] = nb;
+	}
 }
 
-void	PmergeMe::makePairsVect()
+void	PmergeMe::sortPairsVect(size_t n)
 {
-	
+	for (size_t i = 0; i + 1 < n; i+=2)
+	{
+		if (_vectInt[i] > _vectInt[i + 1])
+			std::swap(_vectInt[i], _vectInt[i + 1]);
+	}
+}
+
+void	PmergeMe::insertPairsSecondMembersVect(size_t n, std::vector<int>& vect)
+{
+	for (size_t i = 0; i + 1 < n; i+=2)
+	{
+		int nb = _vectInt[i + 1];
+		std::vector<int>::iterator pos = std::upper_bound(vect.begin(), vect.end(), nb);
+		vect.insert(pos, nb);
+	}
 }
 
 void	PmergeMe::sortVector()
@@ -111,19 +135,48 @@ void	PmergeMe::sortVector()
 	_startTimeVect = std::time(NULL);
 	if (len <= 1)
 		return;
-	makePairsVect();
+	sortPairsVect(len);
+	for (size_t i = 0; i + 1 < len; i+=2)
+		sortedVect.push_back(_vectInt[i]);
+	if (len % 2 != 0)
+		sortedVect.push_back(_vectInt[len - 1]);
+	insertPairsSecondMembersVect(len, sortedVect);
 	_endTimeVect = std::time(NULL);
 	_vectInt = sortedVect;
 }
 
 void	PmergeMe::insertInDeque(std::deque<int>& deque, size_t start, size_t end)
 {
-	
+	for (size_t i = start + 1; i < end; i++)
+	{
+		int nb = deque[i];
+		size_t j = i;
+		while (j > start && deque[j - 1] > nb)
+		{
+			deque[j] = deque[j - 1];
+			j--;
+		}
+		deque[j] = nb;
+	}
 }
 
-void	PmergeMe::makePairsDeque()
+void	PmergeMe::sortPairsDeque(size_t n)
 {
-	size_t	len = _dequeInt.size();
+	for (size_t i = 0; i + 1 < n; i+=2)
+	{
+		if (_dequeInt[i] > _dequeInt[i + 1])
+			std::swap(_dequeInt[i], _dequeInt[i + 1]);
+	}
+}
+
+void	PmergeMe::insertPairsSecondMembersDeque(size_t n, std::deque<int>& deque)
+{
+	for (size_t i = 0; i + 1 < n; i+=2)
+	{
+		int nb = _dequeInt[i + 1];
+		std::deque<int>::iterator pos = std::upper_bound(deque.begin(), deque.end(), nb);
+		deque.insert(pos, nb);
+	}
 }
 
 void	PmergeMe::sortDeque()
@@ -133,7 +186,12 @@ void	PmergeMe::sortDeque()
 	_startTimeDeque = std::time(NULL);
 	if (len <= 1)
 		return;
-	makePairsDeque();
+	sortPairsDeque(len);
+	for (size_t i = 0; i + 1 < len; i+=2)
+		sortedDeque.push_back(_dequeInt[i]);
+	if (len % 2 != 0)
+		sortedDeque.push_back(_dequeInt[len - 1]);
+	insertPairsSecondMembersDeque(len, sortedDeque);
 	_endTimeDeque = std::time(NULL);
 	_dequeInt = sortedDeque;
 }
