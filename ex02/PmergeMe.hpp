@@ -21,7 +21,7 @@ class PmergeMe
 
 		void				process();
 
-		Class SynaxException : public std::exception
+		class SynaxException : public std::exception
 		{
 			public:
 				const char* what() const throw()
@@ -29,7 +29,7 @@ class PmergeMe
 					return "Error: syntax error";
 				}
 		};
-		Class NotPositiveException : public std::exception
+		class NotPositiveException : public std::exception
 		{
 			public:
 				const char* what() const throw()
@@ -37,7 +37,7 @@ class PmergeMe
 					return "Error: all numbers must be positive";
 				}
 		};
-		Class NotIntException : public std::exception
+		class NotIntException : public std::exception
 		{
 			public:
 				const char* what() const throw()
@@ -59,14 +59,11 @@ class PmergeMe
 
 		void				sortPairsVect(size_t n);
 		void				insertPairsSecondMembersVect(size_t n, std::vector<int>& vect);
-		void				insertInVect();
+		void				insertInVect(std::vector<int>& vect, size_t start, size_t end);
 		void				sortPairsDeque(size_t n);
 		void				insertPairsSecondMembersDeque(size_t n, std::deque<int>& deque);
-		void				insertInDeque();
+		void				insertInDeque(std::deque<int>& deque, size_t start, size_t end);
 		void				announce(std::string message);
-
-		static bool			validArg(std::string nbStr);
-		static bool			isPositive(std::string nbStr);
 
 };
 

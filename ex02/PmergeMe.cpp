@@ -6,11 +6,15 @@
 /*   By: Lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 12:17:55 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/06/16 16:14:51 by Lmatkows         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:25:58 by Lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+
+static bool			isValidArg(std::string nbStr);
+static bool			isInt(std::string nbStr);
+static bool			isPositive(std::string nbStr);
 
 ////////////////////////////////////////////////////////////////////////////////
 ///                                                                          ///
@@ -35,15 +39,15 @@ PmergeMe::PmergeMe(int argc, char **argv)
 	for (int i = 1; i < argc; i++)
 	{
 		std::string nb(argv[i]);
-		if (!validArg(nb))
+		if (!isValidArg(nb))
 			throw SynaxException();
 		if (!isPositive(nb))
 			throw NotPositiveException();
 		if (!isInt(nb))
 			throw NotIntException();
-		int value = std::atoi(av[i]);
+		int value = std::atoi(argv[i]);
 		this->_vectInt.push_back(value);
-		his->_dequeInt.push_back(value);
+		this->_dequeInt.push_back(value);
 	}
 }
 
@@ -61,7 +65,9 @@ PmergeMe & PmergeMe::operator=(const PmergeMe & other)
 		this->_startTimeVect = other._startTimeVect;
 		this->_endTimeVect = other._endTimeVect;
 		this->_startTimeDeque = other._startTimeDeque;
-		this->_endTimeDeque = other._endTimeDeque; 
+		this->_endTimeDeque = other._endTimeDeque;
+		this->_dequeInt = other._dequeInt;
+		this->_vectInt = other._vectInt;
 	}
 	return (*this);
 }
@@ -72,14 +78,14 @@ PmergeMe & PmergeMe::operator=(const PmergeMe & other)
 ///                                                                          ///
 ////////////////////////////////////////////////////////////////////////////////
 
-void	PmergeMe::Process()
+void	PmergeMe::process()
 {
 	announce("Before: ");
-	sortVect();
+	sortVector();
 	sortDeque();
 	announce("After: ");
 	
-	double timeVect = static_cast<double>(_endTimeVec - _startTimeVec) / CLOCKS_PER_SEC * 1e6;
+	double timeVect = static_cast<double>(_endTimeVect - _startTimeVect) / CLOCKS_PER_SEC * 1e6;
 	double timeDeque = static_cast<double>(_endTimeDeque - _startTimeDeque) / CLOCKS_PER_SEC * 1e6;
 
 	std::cout << "Time to process a range of " << _vectInt.size()
@@ -92,7 +98,7 @@ void	PmergeMe::insertInVect(std::vector<int>& vect, size_t start, size_t end)
 {
 	for (size_t i = start + 1; i < end; i++)
 	{
-		int nb = vec[i];
+		int nb = vect[i];
 		size_t j = i;
 		while (j > start && vect[j - 1] > nb)
 		{
@@ -193,7 +199,7 @@ void	PmergeMe::sortDeque()
 void	PmergeMe::announce(std::string message)
 {
 	std::cout << message;
-	for (std::vector<int>::iterator it = _vectInt.begin(); it != vectInt.end(); it++)
+	for (std::vector<int>::iterator it = _vectInt.begin(); it != _vectInt.end(); it++)
 	{
 		std::cout << " " << *it;
 	}
@@ -206,7 +212,7 @@ void	PmergeMe::announce(std::string message)
 ///                                                                          ///
 ////////////////////////////////////////////////////////////////////////////////
 
-bool	validArg(std::string nbStr)
+bool	isValidArg(std::string nbStr)
 {
 	if (nbStr.empty())
 		return (false);

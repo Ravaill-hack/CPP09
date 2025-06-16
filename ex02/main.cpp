@@ -6,7 +6,7 @@
 /*   By: Lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 12:26:11 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/06/16 15:59:23 by Lmatkows         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:17:00 by Lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	main(int argc, char **argv)
 	try
 	{
 		PmergeMe	toSort(argc, argv);
+		toSort.process();
 	}
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << '\n';
 	}
-	toSort.process();
 	return (0);
 }
