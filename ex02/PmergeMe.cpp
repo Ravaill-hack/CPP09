@@ -6,7 +6,7 @@
 /*   By: Lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 12:17:55 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/06/16 15:56:55 by Lmatkows         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:14:51 by Lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ PmergeMe::PmergeMe(int argc, char **argv)
 		std::string nb(argv[i]);
 		if (!validArg(nb))
 			throw SynaxException();
-		if (!nbIsPPositive(nb))
+		if (!isPositive(nb))
 			throw NotPositiveException();
+		if (!isInt(nb))
+			throw NotIntException();
 		int value = std::atoi(av[i]);
 		this->_vectInt.push_back(value);
 		his->_dequeInt.push_back(value);
@@ -63,14 +65,6 @@ PmergeMe & PmergeMe::operator=(const PmergeMe & other)
 	}
 	return (*this);
 }
-
-////////////////////////////////////////////////////////////////////////////////
-///                                                                          ///
-///                                GETTERS                                   ///
-///                                                                          ///
-////////////////////////////////////////////////////////////////////////////////
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 ///                                                                          ///
@@ -204,4 +198,39 @@ void	PmergeMe::announce(std::string message)
 		std::cout << " " << *it;
 	}
 	std::cout << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+///                                                                          ///
+///                              NON MEMBERS                                 ///
+///                                                                          ///
+////////////////////////////////////////////////////////////////////////////////
+
+bool	validArg(std::string nbStr)
+{
+	if (nbStr.empty())
+		return (false);
+	size_t i = 0;
+	if (nbStr[0] == '+' || nbStr[0] == '-')
+		i++;
+	if (i == nbStr.size())
+		return (false);
+	for (; i < nbStr.size(); ++i)
+	{
+		if (!std::isdigit(nbStr[i]))
+			return (false);
+	}
+	return (true);
+}
+
+bool	isPositive(std::string nbStr)
+{
+	int nb = std::atoi(nbStr.c_str());
+	return (nb > 0);
+}
+
+bool	isInt(std::string nbStr)
+{
+	long nb = std::atol(nbStr.c_str());
+	return (nb <= INT_MAX);
 }

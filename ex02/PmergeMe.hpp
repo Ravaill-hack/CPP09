@@ -8,6 +8,7 @@
 # include <deque>
 # include <vector>
 # include <exception>
+# include <climits>
 
 class PmergeMe
 {
@@ -36,6 +37,14 @@ class PmergeMe
 					return "Error: all numbers must be positive";
 				}
 		};
+		Class NotIntException : public std::exception
+		{
+			public:
+				const char* what() const throw()
+				{
+					return "Error: all numbers must be under INT_MAX";
+				}
+		};
 
 	private:
 		time_t				_startTimeVect;
@@ -55,6 +64,9 @@ class PmergeMe
 		void				insertPairsSecondMembersDeque(size_t n, std::deque<int>& deque);
 		void				insertInDeque();
 		void				announce(std::string message);
+
+		static bool			validArg(std::string nbStr);
+		static bool			isPositive(std::string nbStr);
 
 };
 
