@@ -7,23 +7,47 @@
 # include <algorithm>
 # include <deque>
 # include <vector>
+# include <exception>
 
 class PmergeMe
 {
 	public:
 		PmergeMe();
+		PmergeMe(int argc, char **argv);
 		~PmergeMe();
 		PmergeMe(const PmergeMe & toCopy);
 		PmergeMe & operator=(const PmergeMe & other);
-		void		getChrono() const;
+
+		void		process();
+
+		Class SynaxException : public std::exception
+		{
+			public:
+				const char* what() const throw()
+				{
+					return "Error: syntax error";
+				}
+		};
+		Class NotPositiveException : public std::exception
+		{
+			public:
+				const char* what() const throw()
+				{
+					return "Error: all numbers must be positive";
+				}
+		};
 
 	private:
-		time_t				_startTime;
-		// static void sortVector(std::vector<int>& vec);
-        // static void sortDeque(std::deque<int>& deq);
+		time_t				_startTimeVect;
+		time_t				_endTimeVect;
+		time_t				_startTimeDeque;
+		time_t				_endTimeDeque;
+		std::vector<int>	_vectInt;
+		std::deque<int>		_dequeInt;
 
-		std::vector<int>&	_vectInt;
-		std::deque<int>&	_dequeInt;
+		void				sortVector();
+        void				sortDeque();
+		void				announce(std::string message);
 
 };
 
