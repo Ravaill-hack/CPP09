@@ -46,7 +46,11 @@ class PmergeMe
 		std::deque<int>		_dequeInt;
 
 		void				sortVector();
+		void				makePairsVect();
+		void				insertInVect();
         void				sortDeque();
+		void				makePairsDeque();
+		void				insertInDeque();
 		void				announce(std::string message);
 
 };

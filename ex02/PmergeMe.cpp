@@ -6,7 +6,7 @@
 /*   By: Lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 12:17:55 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/06/16 15:04:43 by Lmatkows         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:32:02 by Lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,18 +94,48 @@ void	PmergeMe::Process()
 			  << " elements with std::deque: " << timeDeque << " us" << std::endl;
 }
 
+void	PmergeMe::insertInVect(std::vector<int>& vect, size_t start, size_t end)
+{
+	
+}
+
+void	PmergeMe::makePairsVect()
+{
+	
+}
+
 void	PmergeMe::sortVector()
 {
+	std::vector<int> sortedVect;
+	size_t	len = _vectInt.size();
 	_startTimeVect = std::time(NULL);
-
+	if (len <= 1)
+		return;
+	makePairsVect();
 	_endTimeVect = std::time(NULL);
+	_vectInt = sortedVect;
+}
+
+void	PmergeMe::insertInDeque(std::deque<int>& deque, size_t start, size_t end)
+{
+	
+}
+
+void	PmergeMe::makePairsDeque()
+{
+	size_t	len = _dequeInt.size();
 }
 
 void	PmergeMe::sortDeque()
 {
+	std::deque<int> sortedDeque;
+	size_t	len = _dequeInt.size();
 	_startTimeDeque = std::time(NULL);
-
+	if (len <= 1)
+		return;
+	makePairsDeque();
 	_endTimeDeque = std::time(NULL);
+	_dequeInt = sortedDeque;
 }
 
 void	PmergeMe::announce(std::string message)
