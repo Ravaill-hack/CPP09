@@ -6,7 +6,7 @@
 /*   By: lmatkows <lmatkows@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 14:58:21 by lmatkows          #+#    #+#             */
-/*   Updated: 2025/06/04 13:51:15 by lmatkows         ###   ########.fr       */
+/*   Updated: 2025/06/17 09:31:06 by lmatkows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ void	RPN::process()
 		{
 			if (this->_nbs.size() < 2)
 				throw std::runtime_error("Incorrect number of operands");
-			n1 = this->_nbs.top();
-			this->_nbs.pop();
 			n2 = this->_nbs.top();
+			this->_nbs.pop();
+			n1 = this->_nbs.top();
 			this->_nbs.pop();			
 			res = chooseOperand(oneChar[0], n1, n2);
 			this->_nbs.push(res);
@@ -80,6 +80,8 @@ void	RPN::process()
 			this->_nbs.push(toInt(oneChar[0]));
 		i++;
 	}
+	if (_nbs.size() != 1)
+		throw std::runtime_error("Invalid expression");
 	std::cout << this->_nbs.top() << std::endl;
 }
 
